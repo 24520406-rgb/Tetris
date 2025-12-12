@@ -165,7 +165,7 @@ void draw() {
                 cout << "  ";         
             } 
             else if (c == '#') {      
-                cout << "██";        
+                cout << char(219) << char(219);      
             } 
             else {                    
                 cout << "[]";        
