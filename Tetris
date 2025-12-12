@@ -154,3 +154,23 @@ void removeLine() {
         }
     }
 }
+
+void draw() {
+    gotoxy(0,0);
+    for (int i = 0 ; i < H ; i++, cout<<endl)
+        for (int j = 0 ; j < W ; j++){
+            char c = board[i][j];
+
+            if (c == ' ') { 
+                cout << "  ";         
+            } 
+            else if (c == '#') {      
+                cout << "██";        
+            } 
+            else {                    
+                cout << "[]";        
+            }
+        }
+}
+
+
