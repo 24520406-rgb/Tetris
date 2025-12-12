@@ -1,4 +1,4 @@
-﻿#include <iostream>
+#include <iostream>
 #include <conio.h>
 #include <windows.h>
 using namespace std;
@@ -132,4 +132,25 @@ int main()
         _sleep(200);
     }
     return 0;
+}
+
+void removeLine() {
+    for (int row = H - 2; row > 0; row--) {
+        bool full = true;
+        for (int col = 1; col < W - 1; col++)
+            if (board[row][col] == ' ') {
+                full = false;
+                break;
+            }
+
+        if (full) {
+            for (int r = row; r > 0; r--)
+                for (int c = 1; c < W - 1; c++)
+                    board[r][c] = board[r - 1][c];
+
+            draw();
+            _sleep(120);
+            row++;
+        }
+    }
 }
