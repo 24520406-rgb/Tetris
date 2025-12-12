@@ -3,6 +3,7 @@
 #include <windows.h>
 #include <chrono>
 #include <thread>
+#include "BLOCK.h"
 using namespace std;
 #define H 20
 #define W 15
