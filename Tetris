@@ -1,6 +1,17 @@
 #include <iostream>
 #include <conio.h>
 #include <windows.h>
+#include <chrono>
+#include <thread>
+#include "BLOCK.h"
+#include "Block.h"
+#include "BlockI.h"
+#include "BlockO.h"
+#include "BlockT.h"
+#include "BlockL.h"
+#include "Block_J.h"
+#include "BlockS.h"
+#include "BlockZ.h"
 using namespace std;
 #define H 20
 #define W 15
@@ -47,17 +58,17 @@ void gotoxy(int x, int y) {
     COORD c = {x, y};
     SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), c);
 }
-void boardDelBlock(){
+void boardDelBlock(Block &Khoi){
     for (int i = 0 ; i < 4 ; i++)
         for (int j = 0 ; j < 4 ; j++)
-            if (blocks[b][i][j] != ' ' && y+j < H)
-                board[y+i][x+j] = ' ';
+            if (Khoi.getCell(i,j) != ' ' && y+j < H)
+                board[Khoi.y+i][Khoi.x+j] = ' ';
 }
 void block2Board(){
     for (int i = 0 ; i < 4 ; i++)
         for (int j = 0 ; j < 4 ; j++)
-            if (blocks[b][i][j] != ' ' )
-                board[y+i][x+j] = blocks[b][i][j];
+            if (Khoi.getCell(i,j) != ' ' )
+                board[Khoi.y+i][Khoi.x+j] = Khoi.getCell(i,j);
 }
 void initBoard(){
     for (int i = 0 ; i < H ; i++)
@@ -80,12 +91,12 @@ void draw(){
         }
 }
 }
-bool canMove(int dx, int dy){
+bool canMove(Block &Khoi, int dx, int dy){
     for (int i = 0 ; i < 4 ; i++)
         for (int j = 0 ; j < 4 ; j++)
-            if (blocks[b][i][j] != ' '){
-                int tx = x + j + dx;
-                int ty = y + i + dy;
+            if (Khoi.getCell(i,j) != ' '){
+                int tx = Khoi.x + j + dx;
+                int ty = Khoi.y + i + dy;
                 if ( tx<1 || tx >= W-1 || ty >= H-1) return false;
                 if ( board[ty][tx] != ' ') return false;
             }
@@ -101,7 +112,7 @@ void removeLine(){
                 for (int j = 0; j < W-1 ; j++ ) board[ii][j] = board[ii-1][j];
             i++;
             draw();
-            _sleep(200);
+            Sleep(200);
         }
     }
 }
@@ -114,8 +125,8 @@ int main()
     initBoard();
     while (1){
         boardDelBlock();
-        if (kbhit()){
-            char c = getch();
+        if (_kbhit()){
+            char c = _getch();
             if (c=='a' && canMove(-1,0)) x--;
             if (c=='d' && canMove(1,0) ) x++;
             if (c=='x' && canMove(0,1))  y++;
@@ -129,7 +140,7 @@ int main()
         }
         block2Board();
         draw();
-        _sleep(200);
+        Sleep(200);
     }
     return 0;
 }
