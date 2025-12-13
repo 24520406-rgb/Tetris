@@ -65,21 +65,9 @@ void initBoard(){
         for (int j = 0 ; j < W ; j++)
             if ((i==H-1) || (j==0) || (j == W-1)) board[i][j] = '#';
             else board[i][j] = ' ';
-}
-void draw(){
-    gotoxy(0,0);
-    for (int i = 0 ; i < H ; i++, cout<<endl)
-        for (int j = 0 ; j < W ; j++){
-            char c = board[i][j];
-            if (c == ' ') {
-                cout << "  ";
-            } else if (c == '#') {
-                cout << "##";
-            } else {
-                cout << c << c;
             }
-        }
 }
+
 }
 bool canMove(int dx, int dy){
     for (int i = 0 ; i < 4 ; i++)
