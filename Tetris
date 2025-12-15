@@ -71,8 +71,8 @@ char blocks[][4][4] = {
          {'L','L','L',' '},
          {' ',' ',' ',' '}}
 };
-int speed = 100 ;
 int x=4,y=0,b=1;
+int Speed = 200;
 void gotoxy(int x, int y) {
     COORD c = {x, y};
     SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), c);
