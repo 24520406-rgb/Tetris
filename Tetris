@@ -156,3 +156,75 @@ int main()
     }
     return 0;
 }
+
+void removeLine() {
+    for (int row = H - 2; row > 0; row--) {
+        bool full = true;
+        for (int col = 1; col < W - 1; col++)
+            if (board[row][col] == ' ') {
+                full = false;
+                break;
+            }
+
+        if (full) {
+            for (int r = row; r > 0; r--)
+                for (int c = 1; c < W - 1; c++)
+                    board[r][c] = board[r - 1][c];
+
+            draw();
+            Sleep(120);
+            row++;
+        }
+    }
+}
+
+void draw() {
+    gotoxy(0,0);
+    for (int i = 0 ; i < H ; i++, cout<<endl)
+        for (int j = 0 ; j < W ; j++){
+            char c = board[i][j];
+
+            if (c == ' ') { 
+                cout << "  ";         
+            } 
+            else if (c == '#') {      
+                cout << char(219) << char(219);      
+            } 
+            else {                    
+                cout << "[]";        
+            }
+        }
+}
+int main()
+{
+	hideCursor();
+    srand(time(0));
+	Block* currentBlock = spawnBlock();
+    system("cls");
+    initBoard();
+    while (1){
+        boardDelBlock(*currentBlock);
+        if (_kbhit()){
+            char c = _getch();
+            if (c=='a' && canMove(*currentBlock ,-1,0)) currentBlock->moveLeft();
+            if (c=='d' && canMove(*currentBlock, 1, 0)) currentBlock->moveRight();
+            if (c=='x' && canMove(*currentBlock, 0, 1)) currentBlock->moveDown();
+			if (c == 'w' && canMove(*currentBlock, 0, 0)) {
+                currentBlock->rotate();
+            }
+            if (c=='q') break;
+        }
+        if (canMove(*currentBlock, 0,1)) currentBlock->moveDown();
+        else {
+            block2Board(*currentBlock);
+            removeLine();
+            delete currentBlock;
+            x = 5; y = 0; b = rand() % 7;
+            currentBlock = spawnBlock();
+        }
+        block2Board(*currentBlock);
+        draw();
+        Sleep(120);
+    }
+    return 0;
+}
