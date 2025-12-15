@@ -3,7 +3,7 @@
 #include<iostream>  
 using namespace std;
 
-class BlockI : public Block {
+class BlockO : public Block {
     char shape[4][4] = {
      {' ',' ',' ',' '},
      {' ','O','O',' '},
@@ -12,16 +12,11 @@ class BlockI : public Block {
     };
 public:
    void rotate() override {
-    char temp[4][4];
-    for (int i = 0; i < 4; i++)
-        for (int j = 0; j < 4; j++)
-            temp[j][3 - i] = shape[i][j];
-    for (int i = 0; i < 4; i++)
-        for (int j = 0; j < 4; j++)
-            shape[i][j] = temp[i][j];
-}
+        // BlockO does not change shape on rotation
+   }
     char getCell(int i, int j) override {
         return shape[i][j];
     }
 };
+
 

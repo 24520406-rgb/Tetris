@@ -3,14 +3,14 @@
 #include <windows.h>
 #include <chrono>
 #include <thread>
-#include "Block.h"
-#include "BlockI.h"
-#include "BlockO.h"
-#include "BlockT.h"
-#include "BlockL.h"
-#include "Block_J.h"
-#include "BlockS.h"
-#include "BlockZ.h"
+#include "BLOCK.h"
+#include "BLOCKI.h"
+#include "BLOCKO.h"
+#include "BLOCKT.h"
+#include "BLOCKL.h"
+#include "BLOCK_J.h"
+#include "BLOCKS.h"
+#include "BLOCKZ.h"
 
 using namespace std;
 #define H 20
