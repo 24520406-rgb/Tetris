@@ -15,6 +15,10 @@
 using namespace std;
 #define H 20
 #define W 15
+long long speed = 100;
+const int SPEED_STEP = 50;
+const int MIN_SPEED = 100;
+
 char board[H][W] = {} ;
 
 int x=4,y=0,b=1;
@@ -107,6 +111,17 @@ void removeLine(){
         }
     }
 }
+
+void increaseSpeed(int lines) {
+    if (lines > 0) {
+        speed -= lines * SPEED_STEP;
+        if (speed < MIN_SPEED)
+            speed = MIN_SPEED;
+    }
+}
+
+
+
 
 int main()
 {
