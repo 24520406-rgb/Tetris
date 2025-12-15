@@ -130,6 +130,13 @@ void removeLine(){
     }
 }
 
+void increaseSpeed(int lines){
+    if (lines > 0){
+        speed -= lines * SPEED_STEP;
+        if (speed < MIN_SPEED)
+            speed = MIN_SPEED;
+    }
+}
 
 int main()
 {
