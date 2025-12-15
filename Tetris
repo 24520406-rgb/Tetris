@@ -1,4 +1,4 @@
-﻿#include <iostream>
+#include <iostream>
 #include <conio.h>
 #include <windows.h>
 #include <chrono>
@@ -54,6 +54,7 @@ char blocks[][4][4] = {
      {' ',' ',' ',' '}}
 };
 int x=4,y=0,b=1;
+int speed=200;
 void gotoxy(int x, int y) {
     COORD c = {x, y};
     SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), c);
@@ -75,21 +76,9 @@ void initBoard(){
         for (int j = 0 ; j < W ; j++)
             if ((i==H-1) || (j==0) || (j == W-1)) board[i][j] = '#';
             else board[i][j] = ' ';
-}
-void draw(){
-    gotoxy(0,0);
-    for (int i = 0 ; i < H ; i++, cout<<endl)
-        for (int j = 0 ; j < W ; j++){
-            char c = board[i][j];
-            if (c == ' ') {
-                cout << "  ";
-            } else if (c == '#') {
-                cout << "##";
-            } else {
-                cout << c << c;
             }
-        }
 }
+
 }
 bool canMove(Block &Khoi, int dx, int dy){
     for (int i = 0 ; i < 4 ; i++)
@@ -104,10 +93,12 @@ bool canMove(Block &Khoi, int dx, int dy){
 }
 void removeLine(){
     int j;
+    bool removed=false;
     for (int i = H-2; i >0 ; i-- ){
         for (j = 0; j < W-1 ; j++)
             if (board[i][j] == ' ') break;
         if (j == W-1){
+        removed=true;
             for (int ii = i; ii >0 ; ii-- )
                 for (int j = 0; j < W-1 ; j++ ) board[ii][j] = board[ii-1][j];
             i++;
@@ -115,7 +106,10 @@ void removeLine(){
             Sleep(200);
         }
     }
+    if (removed && speed > 50)
+        speed -= 10;
 }
+
 
 int main()
 {
@@ -144,3 +138,44 @@ int main()
     }
     return 0;
 }
+
+void removeLine() {
+    for (int row = H - 2; row > 0; row--) {
+        bool full = true;
+        for (int col = 1; col < W - 1; col++)
+            if (board[row][col] == ' ') {
+                full = false;
+                break;
+            }
+
+        if (full) {
+            for (int r = row; r > 0; r--)
+                for (int c = 1; c < W - 1; c++)
+                    board[r][c] = board[r - 1][c];
+
+            draw();
+            _sleep(120);
+            row++;
+        }
+    }
+}
+
+void draw() {
+    gotoxy(0,0);
+    for (int i = 0 ; i < H ; i++, cout<<endl)
+        for (int j = 0 ; j < W ; j++){
+            char c = board[i][j];
+
+            if (c == ' ') { 
+                cout << "  ";         
+            } 
+            else if (c == '#') {      
+                cout << char(219) << char(219);      
+            } 
+            else {                    
+                cout << "[]";        
+            }
+        }
+}
+
+
