@@ -16,6 +16,12 @@ using namespace std;
 #define H 20
 #define W 15
 char board[H][W] = {} ;
+Speed-increase
+int x=4,y=0,b=1;
+int speed = 200;
+const int MIN_SPEED = 50;  
+const int SPEED_STEP = 20;
+bool removed = false;
 
 int x=4,y=0,b=1;
 
@@ -26,7 +32,7 @@ void hideCursor() {
     info.dwSize = 1;
     SetConsoleCursorInfo(handle, &info);
 }
-
+ main
 void gotoxy(int x, int y) {
     COORD c = {x, y};
     SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), c);
@@ -94,6 +100,7 @@ bool canMove(Block& Khoi, int dx, int dy) {
 };
 
 void removeLine(){
+    removed=false;
     int j;
     for (int i = H-2; i >0 ; i-- ){
         for (j = 0; j < W-1 ; j++)
@@ -102,11 +109,12 @@ void removeLine(){
             for (int ii = i; ii >0 ; ii-- )
                 for (int j = 0; j < W-1 ; j++ ) board[i][j] = board[i-1][j];
             i++;
-            draw();
-            Sleep(200);
+ Speed-increase
+             draw();
         }
     }
 }
+
 
 int main()
 {
@@ -143,31 +151,38 @@ int main()
 }
 
 void removeLine() {
-    for (int row = H - 2; row > 0; row--) {
+    removed = false;
+
+    for (int i = H - 2; i > 0; i--) {
         bool full = true;
-        for (int col = 1; col < W - 1; col++)
-            if (board[row][col] == ' ') {
+
+        for (int j = 1; j < W - 1; j++)
+            if (board[i][j] == ' ') {
                 full = false;
                 break;
             }
 
         if (full) {
-            for (int r = row; r > 0; r--)
-                for (int c = 1; c < W - 1; c++)
-                    board[r][c] = board[r - 1][c];
+            removed = true;
+
+            for (int ii = i; ii > 0; ii--)
+                for (int j = 1; j < W - 1; j++)
+                    board[ii][j] = board[ii - 1][j];
 
             draw();
             Sleep(120);
-            row++;
+            i++;
         }
     }
 }
+
 
 void draw() {
     gotoxy(0,0);
     for (int i = 0 ; i < H ; i++, cout<<endl)
         for (int j = 0 ; j < W ; j++){
             char c = board[i][j];
+ main
 
             if (c == ' ') { 
                 cout << "  ";         
@@ -201,11 +216,22 @@ int main()
         }
         if (canMove(*currentBlock, 0,1)) currentBlock->moveDown();
         else {
-            block2Board(*currentBlock);
+Speed-increase
+           
+           removeLine();               
+           if (removed)                
+             
+           x = 5;
+           y = 0;
+           b = rand() % 7;
+
+
+           
             removeLine();
             delete currentBlock;
             x = 5; y = 0; b = rand() % 7;
             currentBlock = spawnBlock();
+main
         }
         block2Board(*currentBlock);
         draw();
