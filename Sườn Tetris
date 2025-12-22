@@ -121,7 +121,7 @@ int main()
             char c = _getch();
             if (c=='a' && canMove(*currentBlock ,-1,0)) currentBlock->moveLeft();
             if (c=='d' && canMove(*currentBlock, 1, 0)) currentBlock->moveRight();
-            if (c=='x' && canMove(*currentBlock, 0, 1)) currentBlock->moveDown();
+            if (c=='s' && canMove(*currentBlock, 0, 1)) currentBlock->moveDown();
 			if (c == 'w' && canMove(*currentBlock, 0, 0)) {
                 currentBlock->rotate();
             }
