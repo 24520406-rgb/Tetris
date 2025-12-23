@@ -18,6 +18,10 @@ using namespace std;
 char board[H][W] = {} ;
 
 int x=4,y=0,b=1;
+int speed = 200;
+const int MIN_SPEED = 50;
+const int SPEED_STEP = 20;
+bool removed = false;
 
 void hideCursor() {
     HANDLE handle = GetStdHandle(STD_OUTPUT_HANDLE);
@@ -124,7 +128,21 @@ int main()
             if (c=='x' && canMove(*currentBlock, 0, 1)) currentBlock->moveDown();
 			if (c == 'w' && canMove(*currentBlock, 0, 0)) {
                 currentBlock->rotate();
-            }
+            } if (c == ' ') {
+    //Neu phim cach thi khoi se roi xuong luon
+    boardDelBlock(*currentBlock); //xoa vi tri cu cua khoi tren bang truoc khi ha canh 
+    currentBlock->hardDrop(canMove); //goi ham roi ngay lap tuc tu lop cha
+    
+	block2Board(*currentBlock);//Dan luon vao bang tai vi tri moi
+	removeLine();//kiem tra hang day de tao khoi moi
+    
+	delete currentBlock;
+     currentBlock = spawnBlock();
+
+     
+     draw();//ve lai man hinh de thay khoi duoi day
+     continue; 
+ }
             if (c=='q') break;
         }
         if (canMove(*currentBlock, 0,1)) currentBlock->moveDown();
