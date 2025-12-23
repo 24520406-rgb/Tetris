@@ -6,8 +6,8 @@ using namespace std;
 class BlockL : public Block {
     char shape[4][4] =
     {{' ',' ',' ',' '},
-     {' ',' ','L',' '},
-     {'L','L','L',' '},
+     {' ',' ',char(219),' '},
+     {char(219),char(219),char(219),' '},
      {' ',' ',' ',' '}};
 
 public:
@@ -24,6 +24,7 @@ public:
         return shape[i][j];
     };
 };
+
 
 
 
