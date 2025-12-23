@@ -4,12 +4,11 @@
 using namespace std;
 
 class BlockO : public Block {
-    char shape[4][4] = {
-     {' ',' ',' ',' '},
-     {' ','O','O',' '},
-     {' ','O','O',' '},
-     {' ',' ',' ',' '},
-    };
+    char shape[4][4] =   {{' ',' ',' ',' '},
+     {' ',char(219),char(219),' '},
+     {' ',char(219),char(219),' '},
+     {' ',' ',' ',' '}};
+
 public:
    void rotate() override {
         // BlockO does not change shape on rotation
