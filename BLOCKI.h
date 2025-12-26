@@ -4,10 +4,12 @@
 using namespace std;
 
 class BlockI : public Block {
-    char shape[4][4] = {{' ',char(219),' ',' '},
-     {' ',char(219),' ',' '},
-     {' ',char(219),' ',' '},
-     {' ',char(219),' ',' '}};
+    char shape[4][4] = {
+        {' ',char(219),' ',' '},
+        {' ',char(219),' ',' '},
+        {' ',char(219),' ',' '},
+        {' ',char(219),' ',' '}
+    };
 public:
     void rotate() override {
     char temp[4][4];
