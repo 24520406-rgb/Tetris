@@ -123,6 +123,11 @@ bool isGameOver(Block& Khoi) {
     return !canMove(Khoi, 0, 0);
 }
 
+void displayScore(int score) {
+    gotoxy(W * 2 + 5, 5);
+    cout << "SCORE: " << score;
+}
+
 int main()
 {
 	hideCursor();
@@ -131,6 +136,8 @@ int main()
 	Block* currentBlock = spawnBlock();
     system("cls");
     initBoard();
+    long long score = 0;
+    bool remove = false;
     while (1){
         boardDelBlock(*currentBlock);
         if (_kbhit()){
@@ -153,8 +160,16 @@ int main()
         }
         if (isGameOver(*currentBlock)) {
             system("cls");
-            gotoxy(W / 2, H / 2);
-            cout << "GAME OVER!" << endl;
+
+            gotoxy(10, 8);
+            cout << "GAME OVER!";
+
+            gotoxy(10, 10);
+            cout << "Player: " << playerName;
+
+            gotoxy(10, 12);
+            cout << "Score : " << score<<endl;
+
             delete currentBlock;
             system("pause");
             break;
