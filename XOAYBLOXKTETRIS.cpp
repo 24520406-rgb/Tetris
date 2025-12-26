@@ -11,6 +11,8 @@
 #include "BLOCK_J.h"
 #include "BLOCKS.h"
 #include "BLOCKZ.h"
+#include <mmsystem.h>
+#pragma comment(lib, "winmm.lib")
 
 using namespace std;
 #define H 20
@@ -194,6 +196,7 @@ int main()
     }
     return 0;
 }
+
 
 
 
