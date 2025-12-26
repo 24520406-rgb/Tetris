@@ -11,6 +11,7 @@
 #include "BLOCK_J.h"
 #include "BLOCKS.h"
 #include "BLOCKZ.h"
+#include<string>
 
 using namespace std;
 #define H 20
@@ -18,6 +19,7 @@ using namespace std;
 char board[H][W] = {} ;
 
 int x=4,y=0,b=1;
+string playerName;
 
 void hideCursor() {
     HANDLE handle = GetStdHandle(STD_OUTPUT_HANDLE);
@@ -31,6 +33,14 @@ void gotoxy(int x, int y) {
     COORD c = {x, y};
     SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), c);
 }
+
+void inputNameScreen() {
+    system("cls");
+    gotoxy(10, 8);
+    cout << "Nhap ten cua ban: ";
+    getline(cin, playerName);
+}
+
 void boardDelBlock (Block &Khoi){
     for (int i = 0; i < 4; i++)
         for (int j = 0; j < 4; j++)
@@ -112,6 +122,7 @@ int main()
 {
 	hideCursor();
     srand(time(0));
+    inputNameScreen();
 	Block* currentBlock = spawnBlock();
     system("cls");
     initBoard();
