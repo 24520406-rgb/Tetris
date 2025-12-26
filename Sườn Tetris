@@ -118,6 +118,11 @@ void removeLine(){
     }
 }
 
+bool isGameOver(Block& Khoi) {
+
+    return !canMove(Khoi, 0, 0);
+}
+
 int main()
 {
 	hideCursor();
@@ -146,9 +151,19 @@ int main()
             x = 5; y = 0; b = rand() % 7;
             currentBlock = spawnBlock();
         }
+        if (isGameOver(*currentBlock)) {
+            system("cls");
+            gotoxy(W / 2, H / 2);
+            cout << "GAME OVER!" << endl;
+            delete currentBlock;
+            system("pause");
+            break;
+        }
+
         block2Board(*currentBlock);
         draw();
-        gotoxy(0, 0);
+        int infoX = W * 2 + 3;  
+        gotoxy(infoX, 2);
         cout << "Player: " << playerName << "   ";
         Sleep(200);
     }
