@@ -107,6 +107,7 @@ void removeLine(){
             i++;
             draw();
             Sleep(200);
+		 PlaySound(TEXT("bgm.wav"), NULL, SND_FILENAME | SND_ASYNC | SND_LOOP);
         }
     }
 }
@@ -146,7 +147,6 @@ int main()
         else {
             block2Board(*currentBlock);
             removeLine();
-			PlaySound(TEXT("bgm.wav"), NULL, SND_FILENAME | SND_ASYNC | SND_LOOP);
             delete currentBlock;
             x = 5; y = 0; b = rand() % 7;
             currentBlock = spawnBlock();
@@ -162,7 +162,7 @@ int main()
             break;
         block2Board(*currentBlock);
         draw();
-        Sleep(200);
+        Sleep(100);
     }
     return 0;
 }
