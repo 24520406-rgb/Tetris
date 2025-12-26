@@ -11,6 +11,7 @@
 #include "BLOCK_J.h"
 #include "BLOCKS.h"
 #include "BLOCKZ.h"
+#include "menu.h"
 
 using namespace std;
 #define H 20
@@ -241,6 +242,25 @@ ve-khoi
 
 int main()
 {
+    int select = showMenu();
+
+    if (select == 1) {
+        startGame();   
+    }
+    else if (select == 2) {
+        system("cls");
+        cout << "HOW TO PLAY\n";
+        cout << "A : Move Left\n";
+        cout << "D : Move Right\n";
+        cout << "W : Rotate\n";
+        cout << "X : Move Down\n";
+        cout << "Press any key to return...";
+        _getch();
+        main();
+    }
+    else {
+        return 0;
+    }
 	hideCursor();
     srand(time(0));
 	Block* currentBlock = spawnBlock();
