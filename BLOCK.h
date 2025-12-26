@@ -12,6 +12,12 @@ public:
     Block(int _x = 4, int _y = 0) : x(_x), y(_y) {}
 
     virtual char getCell(int i, int j) = 0; //constructor
+     void hardDrop(bool (*canMoveFunc)(Block&, int, int)) {
+     while (canMoveFunc(*this, 0, 1)) {
+         this->y++; 
+     }
+ }
+ 
 
     void moveDown() { y++; }
     void moveLeft() { x--; }
