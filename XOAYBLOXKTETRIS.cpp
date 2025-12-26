@@ -139,6 +139,7 @@ int main()
 {
     hideCursor();
     srand(time(0));
+    PlaySound(TEXT("bgm.wav"), NULL, SND_FILENAME | SND_ASYNC | SND_LOOP);
     Block* currentBlock = spawnBlock();
     system("cls");
     initBoard();
@@ -146,11 +147,18 @@ int main()
         boardDelBlock(*currentBlock);
         if (_kbhit()) {
             char c = _getch();
-            if (c == 'a' && canMove(*currentBlock, -1, 0)) currentBlock->moveLeft();
-            if (c == 'd' && canMove(*currentBlock, 1, 0)) currentBlock->moveRight();
-            if (c == 's' && canMove(*currentBlock, 0, 1)) currentBlock->moveDown();
+            if (c == 'a' && canMove(*currentBlock, -1, 0)) {
+                currentBlock->moveLeft();
+                   Beep(900, 20);}
+            if (c == 'd' && canMove(*currentBlock, 1, 0)) {
+                currentBlock->moveRight();
+                Beep(900, 20);}
+            if (c == 's' && canMove(*currentBlock, 0, 1)) {
+                currentBlock->moveDown();
+                Beep(900, 20);}
             if (c == 'w' && canMove(*currentBlock, 0, 0)) {
                 currentBlock->rotate();
+                Beep(900, 20);
             }
             if (c == ' ') {
                
@@ -177,12 +185,15 @@ int main()
         else {
             block2Board(*currentBlock);
             removeLine();
+            PlaySound(TEXT("bgm.wav"), NULL, SND_FILENAME | SND_ASYNC | SND_LOOP);
             delete currentBlock;
             x = 5; y = 0; b = rand() % 7;
             currentBlock = spawnBlock();
         }
 
         if (isGameOver(*currentBlock)) {
+            PlaySound(NULL, 0, 0);
+            PlaySound(TEXT("game_over.wav"), NULL, SND_FILENAME | SND_SYNC);
             system("cls");
             gotoxy(W / 2, H / 2);
             cout << "GAME OVER!" << endl;
@@ -192,10 +203,11 @@ int main()
         }
         block2Board(*currentBlock);
         draw();
-        Sleep(200);
+        Sleep(100);
     }
     return 0;
 }
+
 
 
 
