@@ -148,6 +148,8 @@ int main()
         }
         block2Board(*currentBlock);
         draw();
+        gotoxy(0, 0);
+        cout << "Player: " << playerName << "   ";
         Sleep(200);
     }
     return 0;
