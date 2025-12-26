@@ -5,11 +5,11 @@ using namespace std;
 
 class Block_J: public Block {
     char shape[4][4] = 
-   {{' ',' ',' ',' '},
+    {{' ',' ',' ',' '},
      {char(219),' ',' ',' '},
      {char(219),char(219),char(219),' '},
-     {' ',' ',' ',' '}};
-
+     {' ',' ',' ',' '}
+    };
 public:
     
     void rotate() override {

@@ -126,7 +126,10 @@ bool isGameOver(Block& Khoi) {
 void displayScore(int score) {
     gotoxy(W * 2 + 5, 5);
     cout << "SCORE: " << score;
+    Nhap_Ten
 }
+} 
+ main
 
 int main()
 {
@@ -145,7 +148,7 @@ int main()
             if (c=='a' && canMove(*currentBlock ,-1,0)) currentBlock->moveLeft();
             if (c=='d' && canMove(*currentBlock, 1, 0)) currentBlock->moveRight();
             if (c=='s' && canMove(*currentBlock, 0, 1)) currentBlock->moveDown();
-			if (c == 'w' && canMove(*currentBlock, 0, 0)) {
+			if (c=='w' && canMove(*currentBlock, 0, 0)) {
                 currentBlock->rotate();
             }
             if (c=='q') break;
@@ -154,9 +157,19 @@ int main()
         else {
             block2Board(*currentBlock);
             removeLine();
+            if(remove){score+=10;};
             delete currentBlock;
             x = 5; y = 0; b = rand() % 7;
-            currentBlock = spawnBlock();
+             currentBlock = spawnBlock();
+   
+    if (isGameOver(*currentBlock)) {
+    system("cls");
+    gotoxy(W / 2, H / 2);
+    cout << "GAME OVER!" << endl;
+    delete currentBlock;
+    system("pause");
+    break;
+}
         }
         if (isGameOver(*currentBlock)) {
             system("cls");
