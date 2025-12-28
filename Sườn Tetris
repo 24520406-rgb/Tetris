@@ -11,19 +11,16 @@
 #include "BLOCK_J.h"
 #include "BLOCKS.h"
 #include "BLOCKZ.h"
- Sound-game
 #include <mmsystem.h>
 #pragma comment(lib, "winmm.lib")
-=======
 #include<string>
- main
 
 using namespace std;
 #define H 20
 #define W 15
-char board[H][W] = {} ;
+char board[H][W] = {};
 
-int x=4,y=0,b=1;
+int x = 4, y = 0, b = 1;
 string playerName;
 
 void hideCursor() {
@@ -35,7 +32,7 @@ void hideCursor() {
 }
 
 void gotoxy(int x, int y) {
-    COORD c = {x, y};
+    COORD c = { x, y };
     SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), c);
 }
 
@@ -46,37 +43,39 @@ void inputNameScreen() {
     getline(cin, playerName);
 }
 
-void boardDelBlock (Block &Khoi){
+void boardDelBlock(Block& Khoi) {
     for (int i = 0; i < 4; i++)
         for (int j = 0; j < 4; j++)
             if (Khoi.getCell(i, j) != ' ' && Khoi.y + i < H)
                 board[Khoi.y + i][Khoi.x + j] = ' ';
 }
-void block2Board(Block &Khoi){
-    for (int i = 0 ; i < 4 ; i++)
-        for (int j = 0 ; j < 4 ; j++)
-            if (Khoi.getCell(i,j) != ' ' )
-                board[Khoi.y+i][Khoi.x+j] =Khoi.getCell(i,j);
+void block2Board(Block& Khoi) {
+    for (int i = 0; i < 4; i++)
+        for (int j = 0; j < 4; j++)
+            if (Khoi.getCell(i, j) != ' ')
+                board[Khoi.y + i][Khoi.x + j] = Khoi.getCell(i, j);
 }
-void initBoard(){
-    for (int i = 0 ; i < H ; i++)
-        for (int j = 0 ; j < W ; j++)
-            if ((i==H-1) || (j==0) || (j == W-1)) board[i][j] = '#';
+void initBoard() {
+    for (int i = 0; i < H; i++)
+        for (int j = 0; j < W; j++)
+            if ((i == H - 1) || (j == 0) || (j == W - 1)) board[i][j] = '#';
             else board[i][j] = ' ';
 }
-void draw(){
-    gotoxy(0,0);
-    for (int i = 0 ; i < H ; i++, cout<<endl)
-        for (int j = 0 ; j < W ; j++){
+void draw() {
+    gotoxy(0, 0);
+    for (int i = 0; i < H; i++, cout << endl)
+        for (int j = 0; j < W; j++) {
             char c = board[i][j];
             if (c == ' ') {
                 cout << "  ";
-            } else if (c == '#') {
-                cout << char(219)<<char(219);
-            } else {
+            }
+            else if (c == '#') {
+                cout << char(219) << char(219);
+            }
+            else {
                 cout << c << c;
             }
-      
+
 
         }
 }
@@ -108,139 +107,127 @@ bool canMove(Block& Khoi, int dx, int dy) {
     return true;
 };
 
-void removeLine(){
+void removeLine() {
     int j;
-    for (int i = H-2; i >0 ; i-- ){
-        for (j = 0; j < W-1 ; j++)
+    for (int i = H - 2; i > 0; i--) {
+        for (j = 0; j < W - 1; j++)
             if (board[i][j] == ' ') break;
-        if (j == W-1){
-		 PlaySound(TEXT("collect-points-190037.wav"), NULL, SND_FILENAME | SND_ASYNC);
-            for (int ii = i; ii >0 ; ii-- )
-                for (int j = 0; j < W-1 ; j++ ) board[i][j] = board[i-1][j];
+        if (j == W - 1) {
+            PlaySound(TEXT("collect-points-190037.wav"), NULL, SND_FILENAME | SND_ASYNC);
+            for (int ii = i; ii > 0; ii--)
+                for (int j = 0; j < W - 1; j++) board[i][j] = board[i - 1][j];
             i++;
             draw();
             Sleep(200);
-		 PlaySound(TEXT("bgm.wav"), NULL, SND_FILENAME | SND_ASYNC | SND_LOOP);
+            PlaySound(TEXT("bgm.wav"), NULL, SND_FILENAME | SND_ASYNC | SND_LOOP);
         }
     }
-}
-
- Sound-game
-bool isGameOver(Block& Khoi) 
-{
-    return !canMove(Khoi, 0, 0);
 }
 
 
 bool isGameOver(Block& Khoi) {
-
-    return !canMove(Khoi, 0, 0);
+    for (int i = 0; i < 4; i++) {
+        for (int j = 0; j < 4; j++) {
+            if (Khoi.getCell(i, j) != ' ') {
+                int x = Khoi.x + j;
+                int y = Khoi.y + i;
+                if (board[y][x] != ' ') {
+                    return true;
+                }
+            }
+        }
+    }
+    return false;
 }
+
+
 
 void displayScore(int score) {
     gotoxy(W * 2 + 5, 5);
     cout << "SCORE: " << score;
-    Nhap_Ten
 }
-} 
- main
 
- main
-int main()
-{
-	hideCursor();
+int main() {
+    hideCursor();
     srand(time(0));
- Sound-game
-	PlaySound(TEXT("bgm.wav"), NULL, SND_FILENAME | SND_ASYNC | SND_LOOP);
+	bool remove = false;
+    PlaySound(TEXT("bgm.wav"), NULL, SND_FILENAME | SND_ASYNC | SND_LOOP);
 
     inputNameScreen();
- main
-	Block* currentBlock = spawnBlock();
+
     system("cls");
     initBoard();
+
+    Block* currentBlock = spawnBlock();
     long long score = 0;
-    bool remove = false;
-    while (1){
+
+    while (true) {
         boardDelBlock(*currentBlock);
-        if (_kbhit()){
+
+        if (_kbhit()) {
             char c = _getch();
- Sound-game
-            if (c=='a' && canMove(*currentBlock ,-1,0)) {
+
+            if (c == 'a' && canMove(*currentBlock, -1, 0))
                 currentBlock->moveLeft();
-                Beep(900, 20);}
-            if (c=='d' && canMove(*currentBlock, 1, 0)) {
-				currentBlock->moveRight();
-				Beep(900, 20);}
-            if (c=='s' && canMove(*currentBlock, 0, 1)) {
-				currentBlock->moveDown();
-				Beep(900, 20);}
-			if (c == 'w' && canMove(*currentBlock, 0, 0)) {
-=======
-            if (c=='a' && canMove(*currentBlock ,-1,0)) currentBlock->moveLeft();
-            if (c=='d' && canMove(*currentBlock, 1, 0)) currentBlock->moveRight();
-            if (c=='s' && canMove(*currentBlock, 0, 1)) currentBlock->moveDown();
-			if (c=='w' && canMove(*currentBlock, 0, 0)) {
- main
+
+            else if (c == 'd' && canMove(*currentBlock, 1, 0))
+                currentBlock->moveRight();
+
+            else if (c == 's' && canMove(*currentBlock, 0, 1))
+                currentBlock->moveDown();
+
+            else if (c == 'w') {
                 currentBlock->rotate();
-				Beep(900, 20);}
-            if (c=='q') break;
+            }
+            else if (c == ' ') {   // HARD DROP
+                currentBlock->hardDrop(canMove);
+            }
+            else if (c == 'q') break;
         }
-        if (canMove(*currentBlock, 0,1)) currentBlock->moveDown();
+
+        if (canMove(*currentBlock, 0, 1)) {
+            currentBlock->moveDown();
+        }
         else {
             block2Board(*currentBlock);
             removeLine();
-            if(remove){score+=10;};
-            delete currentBlock;
-            x = 5; y = 0; b = rand() % 7;
-             currentBlock = spawnBlock();
-   
-    if (isGameOver(*currentBlock)) {
-    system("cls");
-    gotoxy(W / 2, H / 2);
-    cout << "GAME OVER!" << endl;
-    delete currentBlock;
-    system("pause");
-    break;
-}
-        }
- Sound-game
-		if (isGameOver(*currentBlock)) {
-            PlaySound(NULL, 0, 0);
-            PlaySound(TEXT("game_over.wav"), NULL, SND_FILENAME | SND_SYNC);
-            system("cls");
-            gotoxy(W / 2, H / 2);
-            cout << "GAME OVER!" << endl;
-            delete currentBlock;
-            system("pause");
-            break;
-        block2Board(*currentBlock);
-        draw();
-        Sleep(100);
 
-        if (isGameOver(*currentBlock)) {
-            system("cls");
-
-            gotoxy(10, 8);
-            cout << "GAME OVER!";
-
-            gotoxy(10, 10);
-            cout << "Player: " << playerName;
-
-            gotoxy(10, 12);
-            cout << "Score : " << score<<endl;
+            if (remove) {
+                score += 10;
+            }
 
             delete currentBlock;
-            system("pause");
-            break;
+            currentBlock = spawnBlock();
+
+            if (isGameOver(*currentBlock)) {
+                PlaySound(NULL, 0, 0);
+                PlaySound(TEXT("game_over.wav"), NULL, SND_FILENAME | SND_SYNC);
+
+                system("cls");
+                gotoxy(10, 8);
+                cout << "GAME OVER!";
+                gotoxy(10, 10);
+                cout << "Player: " << playerName;
+                gotoxy(10, 12);
+                cout << "Score : " << score;
+
+                delete currentBlock;
+                system("pause");
+                break;
+            }
         }
 
         block2Board(*currentBlock);
         draw();
-        int infoX = W * 2 + 3;  
-        gotoxy(infoX, 2);
-        cout << "Player: " << playerName << "   ";
+
+        gotoxy(W * 2 + 3, 2);
+        cout << "Player: " << playerName;
+		cout << "score: "  << score;
+        displayScore(score);
+
         Sleep(200);
- main
     }
+
     return 0;
 }
+
