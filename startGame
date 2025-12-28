@@ -1,0 +1,54 @@
+void startGame() {
+    initBoard();
+    speed = 200;
+    Block* currentBlock = spawnBlock();
+    system("cls");
+
+    while (true) {
+        boardDelBlock(*currentBlock);
+
+        if (_kbhit()) {
+            char c = _getch();
+            if (c == 'a' && canMove(*currentBlock, -1, 0)) currentBlock->moveLeft();
+            if (c == 'd' && canMove(*currentBlock, 1, 0))  currentBlock->moveRight();
+            if (c == 'x' && canMove(*currentBlock, 0, 1))  currentBlock->moveDown();
+            if (c == 'w') {
+                currentBlock->rotate();
+                if (!canMove(*currentBlock, 0, 0)) {
+                    for(int i = 0; i < 3; i++) currentBlock->rotate();
+                }
+            }
+            if (c == 'q') {
+                delete currentBlock;
+                return;
+            }
+        }
+
+        if (canMove(*currentBlock, 0, 1)) {
+            currentBlock->moveDown();
+        } else {
+            block2Board(*currentBlock);
+            removeLine();
+            
+            if (removed && speed > MIN_SPEED) {
+                speed -= SPEED_STEP;
+            }
+
+            delete currentBlock;
+            currentBlock = spawnBlock();
+
+            if (!canMove(*currentBlock, 0, 0)) {
+                draw();
+                delete currentBlock;
+                gotoxy(W / 2 - 4, H / 2);
+                cout << " GAME OVER! ";
+                Sleep(2000);
+                return;
+            }
+        }
+
+        block2Board(*currentBlock);
+        draw();
+        Sleep(speed);
+    }
+}
