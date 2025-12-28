@@ -1,0 +1,19 @@
+void displayTime(int seconds) {
+    int minutes = seconds / 60;
+    int sec = seconds % 60;
+
+    gotoxy(W * 2 + 5, 7);
+    cout << "TIME : ";
+    if (minutes < 10) cout << "0";
+    cout << minutes << ":";
+
+    if (sec < 10) cout << "0";
+    cout << sec;
+}
+
+
+int main
+auto now = chrono::steady_clock::now();
+int elapsed = chrono::duration_cast<chrono::seconds>(now - startTime).count();
+displayScore(score);
+displayTime(elapsed);
