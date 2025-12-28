@@ -1,21 +1,37 @@
 void startGame() {
+    hideCursor();
+    srand(time(0));
+    inputNameScreen();
+    PlaySound(TEXT("bgm.wav"), NULL, SND_FILENAME | SND_ASYNC | SND_LOOP);
     initBoard();
-    speed = 200;
+    
     Block* currentBlock = spawnBlock();
+    long long score = 0;
     system("cls");
 
-    while (true) {
+    while (1) {
         boardDelBlock(*currentBlock);
 
         if (_kbhit()) {
             char c = _getch();
-            if (c == 'a' && canMove(*currentBlock, -1, 0)) currentBlock->moveLeft();
-            if (c == 'd' && canMove(*currentBlock, 1, 0))  currentBlock->moveRight();
-            if (c == 'x' && canMove(*currentBlock, 0, 1))  currentBlock->moveDown();
+            if (c == 'a' && canMove(*currentBlock, -1, 0)) {
+                currentBlock->moveLeft();
+                Beep(900, 20);
+            }
+            if (c == 'd' && canMove(*currentBlock, 1, 0)) {
+                currentBlock->moveRight();
+                Beep(900, 20);
+            }
+            if (c == 's' && canMove(*currentBlock, 0, 1)) {
+                currentBlock->moveDown();
+                Beep(900, 20);
+            }
             if (c == 'w') {
                 currentBlock->rotate();
                 if (!canMove(*currentBlock, 0, 0)) {
-                    for(int i = 0; i < 3; i++) currentBlock->rotate();
+                    for (int i = 0; i < 3; i++) currentBlock->rotate();
+                } else {
+                    Beep(900, 20);
                 }
             }
             if (c == 'q') {
@@ -29,26 +45,28 @@ void startGame() {
         } else {
             block2Board(*currentBlock);
             removeLine();
-            
-            if (removed && speed > MIN_SPEED) {
-                speed -= SPEED_STEP;
-            }
-
             delete currentBlock;
             currentBlock = spawnBlock();
+        }
 
-            if (!canMove(*currentBlock, 0, 0)) {
-                draw();
-                delete currentBlock;
-                gotoxy(W / 2 - 4, H / 2);
-                cout << " GAME OVER! ";
-                Sleep(2000);
-                return;
-            }
+        if (isGameOver(*currentBlock)) {
+            PlaySound(NULL, 0, 0);
+            PlaySound(TEXT("game_over.wav"), NULL, SND_FILENAME | SND_SYNC);
+            system("cls");
+            gotoxy(10, 8);
+            cout << "GAME OVER!";
+            gotoxy(10, 10);
+            cout << "Player: " << playerName;
+            gotoxy(10, 12);
+            cout << "Score : " << score << endl;
+            delete currentBlock;
+            system("pause");
+            break;
         }
 
         block2Board(*currentBlock);
         draw();
-        Sleep(speed);
+        displayScore(score);
+        Sleep(100);
     }
 }
